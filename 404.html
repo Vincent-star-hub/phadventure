@@ -3,15 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page Not Found</title>
+    <title>404 Not Found</title>
     <script>
-      // Redirect any 404 to the index.html
-      const redirectTo = "/phadventures";
-      window.location.replace(redirectTo);
+      // Redirect 404 to index.html so React Router can handle it
+      window.location.replace("/phadventure/");
     </script>
   </head>
   <body>
-    <h1>404 - Page Not Found</h1>
-    <p>Redirecting you to the home page...</p>
+    <h1>Page Not Found</h1>
   </body>
 </html>
