@@ -1,6 +1,5 @@
-// App.jsx
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Adventures from "./pages/Adventures";
@@ -10,11 +9,11 @@ import About from "./pages/About";
 
 // ScrollToTop Component to scroll the page to the top on route change
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [navigate]);
 
   return null;
 };
@@ -23,15 +22,15 @@ const App = () => {
   return (
     <BrowserRouter basename="/phadventure">
       <ScrollToTop />
-      <Layout>
-        <Routes>
-          <Route path="/phadventure" element={<Home />} />
-          <Route path="/adventures" element={<Adventures />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="adventures" element={<Adventures />} />
+          <Route path="destinations" element={<Destinations />} />
+          <Route path="pricing" element={<Pricing />} />
+          <Route path="about" element={<About />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
