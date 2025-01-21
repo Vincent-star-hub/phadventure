@@ -62,7 +62,7 @@ const Pricing = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden py-32">
+    <div className="relative overflow-hidden bg-gray-50 py-32">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />

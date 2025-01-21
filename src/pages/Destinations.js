@@ -333,6 +333,11 @@ const Destinations = () => {
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-32">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500 rounded-full blur-3xl" />
+        </div>
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">Discover Philippines</h1>

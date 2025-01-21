@@ -1,3 +1,4 @@
+// Layout.jsx
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import {
@@ -44,13 +45,15 @@ const Layout = () => {
     return location.pathname === path;
   };
 
+  const isHomePage = location.pathname === "/";
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
       <nav
-        className={`fixed w-full bg-transparent backdrop-blur-sm z-50 shadow-md transition-transform duration-300 ${
-          isNavbarVisible ? "transform translate-y-0" : "-translate-y-16"
-        }`}
+        className={`fixed w-full z-50 transition-transform duration-300 ${
+          isHomePage ? "bg-transparent" : "bg-white shadow-md"
+        } ${isNavbarVisible ? "transform translate-y-0" : "-translate-y-16"}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -62,7 +65,11 @@ const Layout = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden hover:text-blue-600 transition-colors"
+              className={`md:hidden transition-colors ${
+                isHomePage
+                  ? "text-white hover:text-blue-200"
+                  : "text-gray-800 hover:text-blue-600"
+              }`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -81,7 +88,9 @@ const Layout = () => {
                         ? "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
                         : isActive(item.path)
                         ? "text-blue-600"
-                        : "hover:text-blue-600"
+                        : isHomePage
+                        ? "text-white hover:text-blue-200"
+                        : "text-gray-800 hover:text-blue-600"
                     }
                   `}
                 >
@@ -100,10 +109,15 @@ const Layout = () => {
                     key={item.path}
                     to={item.path}
                     className={`
-                      block px-3 py-2
+                      block px-3 py-2 text-gray-800 hover:text-blue-600
                       ${
                         item.isButton
-                          ? "bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                          ? "bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:text-white"
+                          : ""
+                      }
+                      ${
+                        isActive(item.path) && !item.isButton
+                          ? "text-blue-600"
                           : ""
                       }
                     `}
