@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  BrowserRouter,
 } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -25,18 +26,21 @@ const ScrollToTop = () => {
 
 const App = () => {
   return (
-    <Router>
-      <ScrollToTop /> {/* Ensures scroll to top on route change */}
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/adventures" element={<Adventures />} />
-          <Route path="/destinations" element={<Destinations />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <BrowserRouter basename="/phadventure">
+      {" "}
+      <Router>
+        <ScrollToTop /> {/* Ensures scroll to top on route change */}
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/adventures" element={<Adventures />} />
+            <Route path="/destinations" element={<Destinations />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </BrowserRouter>
   );
 };
 
