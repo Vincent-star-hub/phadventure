@@ -1,6 +1,6 @@
 {
   "homepage": "https://vincent-star-hub.github.io/phadventure",
-  "name": "adventure",
+  "name": "phadventure",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
