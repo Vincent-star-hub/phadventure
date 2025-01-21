@@ -26,20 +26,19 @@ const ScrollToTop = () => {
 
 const App = () => {
   return (
-    <BrowserRouter basename="/phadventure">
+    <BrowserRouter basename="/photoblog">
       {" "}
-      <Router>
-        <ScrollToTop /> {/* Ensures scroll to top on route change */}
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/adventures" element={<Adventures />} />
-            <Route path="/destinations" element={<Destinations />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </Layout>
-      </Router>
+      {/* Added basename */}
+      <ScrollToTop /> {/* Ensures scroll to top on route change */}
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/adventures" element={<Adventures />} />
+          <Route path="/destinations" element={<Destinations />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/about" element={<About />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
