@@ -32,7 +32,7 @@ const App = () => {
       <ScrollToTop /> {/* Ensures scroll to top on route change */}
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="/adventures" element={<Adventures />} />
           <Route path="/destinations" element={<Destinations />} />
           <Route path="/pricing" element={<Pricing />} />
