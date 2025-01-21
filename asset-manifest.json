@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/phadventure/static/css/main.bc1c2442.css",
-    "main.js": "/phadventure/static/js/main.b53045ba.js",
+    "main.js": "/phadventure/static/js/main.876d9356.js",
     "static/js/373.3e07feea.chunk.js": "/phadventure/static/js/373.3e07feea.chunk.js",
     "static/media/siargao.jpg": "/phadventure/static/media/siargao.fbad2940b7057444c76a.jpg",
     "static/media/PHadventure.mp4": "/phadventure/static/media/PHadventure.a70d63faa56da1ef943a.mp4",
@@ -28,11 +28,11 @@
     "static/media/man.jpg": "/phadventure/static/media/man.29a1d002828929af3d88.jpg",
     "index.html": "/phadventure/index.html",
     "main.bc1c2442.css.map": "/phadventure/static/css/main.bc1c2442.css.map",
-    "main.b53045ba.js.map": "/phadventure/static/js/main.b53045ba.js.map",
+    "main.876d9356.js.map": "/phadventure/static/js/main.876d9356.js.map",
     "373.3e07feea.chunk.js.map": "/phadventure/static/js/373.3e07feea.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bc1c2442.css",
-    "static/js/main.b53045ba.js"
+    "static/js/main.876d9356.js"
   ]
 }
