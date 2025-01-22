@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/phadventure/static/css/main.0102310e.css",
-    "main.js": "/phadventure/static/js/main.899e3ec4.js",
+    "main.css": "/phadventure/static/css/main.69be0214.css",
+    "main.js": "/phadventure/static/js/main.5146de22.js",
     "static/js/373.3e07feea.chunk.js": "/phadventure/static/js/373.3e07feea.chunk.js",
     "static/media/siargao.jpg": "/phadventure/static/media/siargao.fbad2940b7057444c76a.jpg",
     "static/media/PHadventure.mp4": "/phadventure/static/media/PHadventure.a70d63faa56da1ef943a.mp4",
@@ -27,12 +27,12 @@
     "static/media/woman.jpg": "/phadventure/static/media/woman.75bac7d0e0655d3aad99.jpg",
     "static/media/man.jpg": "/phadventure/static/media/man.29a1d002828929af3d88.jpg",
     "index.html": "/phadventure/index.html",
-    "main.0102310e.css.map": "/phadventure/static/css/main.0102310e.css.map",
-    "main.899e3ec4.js.map": "/phadventure/static/js/main.899e3ec4.js.map",
+    "main.69be0214.css.map": "/phadventure/static/css/main.69be0214.css.map",
+    "main.5146de22.js.map": "/phadventure/static/js/main.5146de22.js.map",
     "373.3e07feea.chunk.js.map": "/phadventure/static/js/373.3e07feea.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0102310e.css",
-    "static/js/main.899e3ec4.js"
+    "static/css/main.69be0214.css",
+    "static/js/main.5146de22.js"
   ]
 }
