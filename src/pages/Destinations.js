@@ -107,6 +107,16 @@ const DestinationTabs = ({ destination }) => {
             value={destination.bestTime}
           />
           <InfoCard icon={Cloud} title="Weather" value={destination.weather} />
+          <div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              Highlights
+            </h3>
+            <ul className="list-disc list-inside text-gray-600 space-y-1">
+              {destination.highlights.map((highlight, index) => (
+                <li key={index}>{highlight}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     ),
@@ -174,11 +184,14 @@ const Destinations = () => {
       description:
         "Known for its pristine beaches, hidden lagoons, and the Underground River. Experience world-class island hopping, diving spots, and limestone cliffs.",
       highlights: [
-        "El Nido Island Hopping",
-        "Underground River",
-        "Coron Diving",
-        "Honda Bay",
-        "Tubbataha Reef",
+        "Scuba Diving at Tubbataha Reef",
+        "Exploring the Underground River",
+        "Island Hopping in El Nido",
+        "Kayaking in Lagoons",
+        "Snorkeling with Marine Life",
+        "Hiking to Taraw Cliff",
+        "Stand-Up Paddleboarding",
+        "Visiting Hot Springs in Coron",
       ],
       bestTime: "December to May",
       weather: "Tropical",
@@ -210,9 +223,16 @@ const Destinations = () => {
       weather: "Tropical",
       rating: 4.8,
       activities: [
+        "Island Hopping",
+        "Snorkeling",
+        "Stand-Up Paddleboarding",
+        "Jet Skiing",
+        "Helmet Diving",
+        "Zorb Riding",
+        "Fire Dancing Shows",
+        "Spa and Wellness Retreats",
         "Parasailing",
         "Kiteboarding",
-        "Scuba Diving",
         "Beach Parties",
       ],
       localFood: ["Calamansi Muffins", "Talaba", "Chori Burger"],
@@ -240,7 +260,17 @@ const Destinations = () => {
       bestTime: "December to March",
       weather: "Cool Mountain Climate",
       rating: 4.7,
-      activities: ["Trekking", "Photography", "Cultural Immersion", "Camping"],
+      activities: [
+        "Trekking to the Rice Terraces",
+        "Cultural Immersion in Tribal Villages",
+        "Photography of Scenic Landscapes",
+        "Camping near the Terraces",
+        "Visiting Local Artisan Workshops",
+        "Exploring the Batad Village",
+        "Visiting the Banaue Museum",
+        "Traditional Weaving and Craftmaking",
+      ],
+
       localFood: ["Pinikpikan", "Rice Wine", "Local Coffee"],
       averageTemperature: "16-20°C",
       travelTips: [
@@ -266,7 +296,17 @@ const Destinations = () => {
       bestTime: "August to November",
       weather: "Tropical",
       rating: 4.8,
-      activities: ["Surfing", "Island Hopping", "Paddleboarding", "Diving"],
+      activities: [
+        "Surfing at Cloud 9",
+        "Island Hopping to Naked Island and Guyam Island",
+        "Stand-Up Paddleboarding in Sugba Lagoon",
+        "Diving in nearby coral reefs",
+        "Exploring Magpupungko Rock Pools",
+        "Caving at Tayangban Cave",
+        "Visiting the Palm Tree Forest",
+        "Sunset Watching at the Boulevard",
+      ],
+
       localFood: ["Kinilaw", "Seafood Pizza", "Coconut Ice Cream"],
       averageTemperature: "27-31°C",
       travelTips: [
@@ -292,7 +332,17 @@ const Destinations = () => {
       bestTime: "March to June",
       weather: "Cool and windy",
       rating: 4.9,
-      activities: ["Biking", "Photography", "Cultural Tours", "Hiking"],
+      activities: [
+        "Biking through Rolling Hills and Countryside",
+        "Photography of Dramatic Landscapes",
+        "Cultural Tours in Ivatan Villages",
+        "Hiking to Marlboro Hills",
+        "Visiting Sabtang Island",
+        "Exploring the Basco Lighthouse",
+        "Swimming at Valugan Boulder Beach",
+        "Learning about Ivatan Weaving",
+      ],
+
       localFood: ["Uvud Balls", "Dibang (Flying Fish)", "Lunis"],
       averageTemperature: "20-28°C",
       travelTips: [
@@ -318,7 +368,16 @@ const Destinations = () => {
       bestTime: "February to May",
       weather: "Tropical",
       rating: 4.7,
-      activities: ["Diving", "Trekking", "Snorkeling", "Relaxing"],
+      activities: [
+        "Diving at Sunken Cemetery",
+        "Trekking to Hibok-Hibok Volcano",
+        "Snorkeling at White Island",
+        "Relaxing at Ardent Hot Springs",
+        "Visiting Mantigue Island",
+        "Exploring Katibawasan Falls",
+        "Island Hopping",
+        "Mountain Biking",
+      ],
       localFood: ["Pastel", "Kipling", "Lanzones"],
       averageTemperature: "25-31°C",
       travelTips: [
@@ -344,7 +403,16 @@ const Destinations = () => {
       bestTime: "November to February",
       weather: "Cool Mountain Climate",
       rating: 4.8,
-      activities: ["Hiking", "Caving", "Cultural Immersion", "Photography"],
+      activities: [
+        "Hiking to Kiltepan Viewpoint",
+        "Exploring Sumaguing Cave",
+        "Cultural Immersion in Local Villages",
+        "Photography at Bomod-ok Falls",
+        "Visiting the Hanging Coffins",
+        "Caving and Spelunking",
+        "Trekking to Echo Valley",
+        "Sunrise Watching",
+      ],
       localFood: ["Pinikpikan", "Etag", "Sagada Coffee"],
       averageTemperature: "15-20°C",
       travelTips: [
@@ -370,7 +438,16 @@ const Destinations = () => {
       bestTime: "November to May",
       weather: "Tropical",
       rating: 4.6,
-      activities: ["Trekking", "Beach Hopping", "Wildlife Tours", "Shopping"],
+      activities: [
+        "Trekking to Mt. Apo",
+        "Beach Hopping in Samal Island",
+        "Wildlife Tours in Crocodile Park",
+        "Shopping at Aldevinco Shopping Center",
+        "Exploring Eden Nature Park",
+        "Snorkeling in Samal Island",
+        "Visiting People’s Park",
+        "Tasting Durian at the Night Market",
+      ],
       localFood: ["Durian Candy", "Grilled Tuna", "Mangosteen Products"],
       averageTemperature: "27-33°C",
       travelTips: [
@@ -397,12 +474,16 @@ const Destinations = () => {
       weather: "Tropical",
       rating: 4.8,
       activities: [
-        "Canyoneering",
-        "Whale Shark Watching",
-        "Hiking",
-        "Snorkeling",
-        "Island Hopping",
+        "Canyoneering at Kawasan Falls",
+        "Whale Shark Watching in Oslob",
+        "Hiking Osmeña Peak",
+        "Snorkeling at Pescador Island",
+        "Island Hopping in Moalboal",
+        "Visiting Temple of Leah",
+        "Exploring Magellan's Cross",
+        "Visiting Historical Landmarks",
       ],
+
       localFood: ["Lechon", "Puso (Hanging Rice)", "Danggit", "Cebu Mangoes"],
       averageTemperature: "25-31°C",
       travelTips: [
