@@ -1,5 +1,6 @@
 import React from "react";
 import { Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Pricing = () => {
   const plans = [
@@ -139,9 +140,11 @@ const Pricing = () => {
             Can't find the right package? Let's create a personalized adventure
             tailored just for you.
           </p>
-          <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-            <a href="/adventures">Create Your Package</a>
-          </button>
+          <Link to="/adventures">
+            <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              Create Your Package
+            </button>
+          </Link>
         </div>
       </div>
     </div>
