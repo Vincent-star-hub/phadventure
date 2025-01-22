@@ -376,9 +376,11 @@ const Adventures = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedAdventure, setSelectedAdventure] = useState(null);
+  const [favoriteStates, setFavoriteStates] = useState({});
 
   const adventures = [
     {
+      id: 1,
       title: "Island Hopping Expedition",
       location: "El Nido, Palawan",
       duration: "8 hours",
@@ -399,6 +401,7 @@ const Adventures = () => {
       ],
     },
     {
+      id: 2,
       title: "Mount Pulag Summit Trek",
       location: "Benguet",
       duration: "2 days",
@@ -414,6 +417,7 @@ const Adventures = () => {
       includedActivities: ["Camping", "Guide", "Meals", "Permits"],
     },
     {
+      id: 3,
       title: "Surfing Adventure",
       location: "Cloud 9, Siargao",
       duration: "4 hours",
@@ -429,6 +433,7 @@ const Adventures = () => {
       includedActivities: ["Equipment", "Instructor", "Safety Briefing"],
     },
     {
+      id: 4,
       title: "Chocolate Hills ATV Adventure",
       location: "Bohol",
       duration: "3 hours",
@@ -444,6 +449,7 @@ const Adventures = () => {
       includedActivities: ["ATV Rental", "Guide", "Safety Gear"],
     },
     {
+      id: 5,
       title: "Underground River Cruise",
       location: "Puerto Princesa, Palawan",
       duration: "4 hours",
@@ -459,6 +465,7 @@ const Adventures = () => {
       includedActivities: ["Boat Tour", "Guide", "Life Vest", "Lunch"],
     },
     {
+      id: 6,
       title: "Kawasan Canyoneering Adventure",
       location: "Badian, Cebu",
       duration: "5 hours",
@@ -474,6 +481,7 @@ const Adventures = () => {
       includedActivities: ["Cliff Jumping", "Swimming", "Lunch", "Guide"],
     },
     {
+      id: 7,
       title: "Scuba Diving Adventure",
       location: "Tubbataha Reef, Palawan",
       duration: "Full Day",
@@ -498,6 +506,13 @@ const Adventures = () => {
       adventure.location.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
+
+  const toggleFavorite = (adventure) => {
+    setFavoriteStates((prev) => ({
+      ...prev,
+      [adventure]: !prev[adventure],
+    }));
+  };
 
   const handleBookNow = (adventure) => {
     setSelectedAdventure(adventure);
@@ -615,8 +630,22 @@ const Adventures = () => {
                   <h2 className="text-2xl font-bold group-hover:text-blue-600 transition-colors">
                     {adventure.title}
                   </h2>
-                  <button className="text-gray-400 hover:text-red-500 transition-colors">
-                    <Heart className="w-6 h-6" />
+                  <button
+                    onClick={() => toggleFavorite(adventure.id)}
+                    className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100"
+                    aria-label={
+                      favoriteStates[adventure.id]
+                        ? "Remove from favorites"
+                        : "Add to favorites"
+                    }
+                  >
+                    <Heart
+                      className={`w-6 h-6 ${
+                        favoriteStates[adventure.id]
+                          ? "fill-red-500 text-red-500"
+                          : ""
+                      }`}
+                    />
                   </button>
                 </div>
 
