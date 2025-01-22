@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   MapPin,
   Cloud,
@@ -8,6 +8,7 @@ import {
   ArrowRight,
   Heart,
   Search,
+  Loader,
 } from "lucide-react";
 import palawan from "../images/palawan.jpg";
 import boracay from "../images/boracay.jpg";
@@ -19,13 +20,154 @@ import davao from "../images/mt. apo.jpg";
 import batanes from "../images/batanes.jpg";
 import cebu from "../images/cordova.jpg";
 
+const RegionFilter = ({ selectedRegion, onRegionChange }) => {
+  const regions = [
+    { id: "all", label: "All" },
+    { id: "luzon", label: "Luzon" },
+    { id: "visayas", label: "Visayas" },
+    { id: "mindanao", label: "Mindanao" },
+  ];
+
+  return (
+    <div className="flex gap-2">
+      {regions.map(({ id, label }) => (
+        <button
+          key={id}
+          onClick={() => onRegionChange(id)}
+          className={`px-4 py-2 rounded-lg transition-colors ${
+            selectedRegion === id
+              ? "bg-blue-600 text-white"
+              : "bg-gray-100 hover:bg-gray-200"
+          }`}
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const SearchBar = ({ value, onChange }) => (
+  <div className="relative flex-1">
+    <Search
+      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+      size={20}
+    />
+    <input
+      type="text"
+      placeholder="Search destinations..."
+      className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      aria-label="Search destinations"
+    />
+  </div>
+);
+
+const DestinationImage = ({ src, alt, rating }) => (
+  <div className="md:w-1/2 relative group overflow-hidden aspect-video md:aspect-auto">
+    <img
+      src={src}
+      alt={alt}
+      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+      loading="lazy"
+    />
+    {rating && (
+      <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full">
+        <div className="flex items-center gap-1">
+          <Star className="w-4 h-4 text-yellow-400 fill-current" />
+          <span className="font-medium">{rating}</span>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
+const InfoCard = ({ icon: Icon, title, value }) => (
+  <div className="flex items-center text-gray-600">
+    <Icon className="w-5 h-5 mr-2 flex-shrink-0" />
+    <div>
+      <span className="font-medium block">{title}</span>
+      <span className="text-sm">{value}</span>
+    </div>
+  </div>
+);
+
+const DestinationTabs = ({ destination }) => {
+  const [activeTab, setActiveTab] = useState("overview");
+
+  const tabContent = {
+    overview: (
+      <div className="space-y-4">
+        <p className="text-gray-600">{destination.description}</p>
+        <div className="grid grid-cols-2 gap-4">
+          <InfoCard
+            icon={Sun}
+            title="Best Time to Visit"
+            value={destination.bestTime}
+          />
+          <InfoCard icon={Cloud} title="Weather" value={destination.weather} />
+        </div>
+      </div>
+    ),
+    activities: (
+      <div className="grid grid-cols-2 gap-4">
+        {destination.activities.map((activity) => (
+          <div
+            key={activity}
+            className="flex items-center bg-gray-50 p-3 rounded-lg"
+          >
+            <Umbrella className="w-5 h-5 mr-2 text-blue-500" />
+            <span>{activity}</span>
+          </div>
+        ))}
+      </div>
+    ),
+    tips: (
+      <div className="space-y-4">
+        {destination.travelTips.map((tip, index) => (
+          <div key={index} className="flex items-start">
+            <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
+              <Star className="w-4 h-4 text-blue-600" />
+            </div>
+            <p className="text-gray-600">{tip}</p>
+          </div>
+        ))}
+      </div>
+    ),
+  };
+
+  return (
+    <div className="w-full">
+      <div className="flex space-x-4 border-b mb-4">
+        {Object.keys(tabContent).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`py-2 px-4 font-medium transition-colors capitalize ${
+              activeTab === tab
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+      <div className="py-4">{tabContent[activeTab]}</div>
+    </div>
+  );
+};
+
 const Destinations = () => {
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("overview");
+  const [favoriteStates, setFavoriteStates] = useState({});
+  const [isLoading, setIsLoading] = useState({});
 
   const destinations = [
     {
+      id: 1,
       name: "Palawan",
       image: palawan,
       region: "luzon",
@@ -51,6 +193,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 2,
       name: "Boracay",
       image: boracay,
       region: "visayas",
@@ -81,6 +224,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 3,
       name: "Banaue",
       image: banaue,
       region: "luzon",
@@ -106,6 +250,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 4,
       name: "Siargao",
       image: siargao,
       region: "mindanao",
@@ -131,6 +276,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 5,
       name: "Batanes",
       image: batanes,
       region: "luzon",
@@ -156,6 +302,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 6,
       name: "Camiguin",
       image: camiguin,
       region: "mindanao",
@@ -181,6 +328,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 7,
       name: "Sagada",
       image: sagada,
       region: "luzon",
@@ -206,6 +354,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 8,
       name: "Davao",
       image: davao,
       region: "mindanao",
@@ -231,6 +380,7 @@ const Destinations = () => {
       ],
     },
     {
+      id: 9,
       name: "Cebu",
       image: cebu,
       region: "visayas",
@@ -263,154 +413,75 @@ const Destinations = () => {
     },
   ];
 
-  const filteredDestinations = destinations.filter((destination) => {
-    const matchesRegion =
-      selectedRegion === "all" || destination.region === selectedRegion;
-    const matchesSearch = destination.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    return matchesRegion && matchesSearch;
-  });
+  const filteredDestinations = useMemo(() => {
+    return destinations.filter((destination) => {
+      const matchesRegion =
+        selectedRegion === "all" || destination.region === selectedRegion;
+      const matchesSearch = destination.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      return matchesRegion && matchesSearch;
+    });
+  }, [destinations, selectedRegion, searchQuery]);
 
-  const TabContent = ({ destination, tab }) => {
-    switch (tab) {
-      case "overview":
-        return (
-          <div className="space-y-4">
-            <p className="text-gray-600">{destination.description}</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex items-center text-gray-600">
-                <Sun className="w-5 h-5 mr-2 flex-shrink-0" />
-                <div>
-                  <span className="font-medium block">Best Time to Visit</span>
-                  <span className="text-sm">{destination.bestTime}</span>
-                </div>
-              </div>
-              <div className="flex items-center text-gray-600">
-                <Cloud className="w-5 h-5 mr-2 flex-shrink-0" />
-                <div>
-                  <span className="font-medium block">Weather</span>
-                  <span className="text-sm">{destination.weather}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      case "activities":
-        return (
-          <div>
-            <div className="grid grid-cols-2 gap-4">
-              {destination.activities.map((activity) => (
-                <div
-                  key={activity}
-                  className="flex items-center bg-gray-50 p-3 rounded-lg"
-                >
-                  <Umbrella className="w-5 h-5 mr-2 text-blue-500" />
-                  <span>{activity}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
-      case "tips":
-        return (
-          <div className="space-y-4">
-            {destination.travelTips.map((tip, index) => (
-              <div key={index} className="flex items-start">
-                <div className="bg-blue-100 rounded-full p-1 mr-3 mt-1">
-                  <Star className="w-4 h-4 text-blue-600" />
-                </div>
-                <p className="text-gray-600">{tip}</p>
-              </div>
-            ))}
-          </div>
-        );
-      default:
-        return null;
+  const toggleFavorite = (destinationId) => {
+    setFavoriteStates((prev) => ({
+      ...prev,
+      [destinationId]: !prev[destinationId],
+    }));
+  };
+
+  const handleExplore = async (destinationId) => {
+    setIsLoading((prev) => ({
+      ...prev,
+      [destinationId]: true,
+    }));
+
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log(`Exploring destination: ${destinationId}`);
+    } catch (error) {
+      console.error("Error exploring destination:", error);
+    } finally {
+      setIsLoading((prev) => ({
+        ...prev,
+        [destinationId]: false,
+      }));
     }
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-32">
         {/* Background Elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500 rounded-full blur-3xl" />
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-10" />
+          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-500 rounded-full blur-3xl opacity-10" />
         </div>
+
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <section className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6">Discover Philippines</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Explore the incredible diversity of 7,641 islands - from pristine
             beaches to ancient rice terraces, each destination tells a unique
-            story
+            story.
           </p>
           <p className="text-sm text-gray-500 mt-4">
             *Prices and details shown are for sample purposes only. This is a
             portfolio website and not an actual booking platform.
           </p>
-        </div>
+        </section>
 
         {/* Search and Filter */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="max-w-4xl mx-auto mb-12 bg-white rounded-xl shadow-md">
+          <div className="p-6">
             <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <Search
-                  className="absolute left-3 top-3 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Search destinations..."
-                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setSelectedRegion("all")}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedRegion === "all"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => setSelectedRegion("luzon")}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedRegion === "luzon"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  Luzon
-                </button>
-                <button
-                  onClick={() => setSelectedRegion("visayas")}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedRegion === "visayas"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  Visayas
-                </button>
-                <button
-                  onClick={() => setSelectedRegion("mindanao")}
-                  className={`px-4 py-2 rounded-lg transition-colors ${
-                    selectedRegion === "mindanao"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  Mindanao
-                </button>
-              </div>
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+              <RegionFilter
+                selectedRegion={selectedRegion}
+                onRegionChange={setSelectedRegion}
+              />
             </div>
           </div>
         </div>
@@ -419,23 +490,15 @@ const Destinations = () => {
         <div className="space-y-12">
           {filteredDestinations.map((destination) => (
             <div
-              key={destination.name}
+              key={destination.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-xl"
             >
               <div className="md:flex">
-                <div className="md:w-1/2 relative group overflow-hidden ">
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-96 object-cover transform transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="font-medium">{destination.rating}</span>
-                    </div>
-                  </div>
-                </div>
+                <DestinationImage
+                  src={destination.image}
+                  alt={destination.name}
+                  rating={destination.rating}
+                />
 
                 <div className="md:w-1/2 p-5">
                   <div className="flex justify-between items-start mb-4">
@@ -448,36 +511,44 @@ const Destinations = () => {
                         <span className="mr-4">Philippines</span>
                       </div>
                     </div>
-                    <button className="text-gray-400 hover:text-red-500 transition-colors">
-                      <Heart className="w-6 h-6" />
+                    <button
+                      onClick={() => toggleFavorite(destination.id)}
+                      className="text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-gray-100"
+                      aria-label={
+                        favoriteStates[destination.id]
+                          ? "Remove from favorites"
+                          : "Add to favorites"
+                      }
+                    >
+                      <Heart
+                        className={`w-6 h-6 ${
+                          favoriteStates[destination.id]
+                            ? "fill-red-500 text-red-500"
+                            : ""
+                        }`}
+                      />
                     </button>
                   </div>
 
-                  {/* Tabs */}
-                  <div className="mb-6">
-                    <div className="flex space-x-4 border-b">
-                      {["overview", "activities", "tips"].map((tab) => (
-                        <button
-                          key={tab}
-                          onClick={() => setActiveTab(tab)}
-                          className={`py-2 px-4 font-medium transition-colors ${
-                            activeTab === tab
-                              ? "text-blue-600 border-b-2 border-blue-600"
-                              : "text-gray-500 hover:text-gray-700"
-                          }`}
-                        >
-                          {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="py-4">
-                      <TabContent destination={destination} tab={activeTab} />
-                    </div>
-                  </div>
+                  <DestinationTabs destination={destination} />
 
-                  <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium transition-all duration-300 transform  hover:bg-blue-700 flex items-center justify-center gap-2">
-                    Explore Destination
-                    <ArrowRight className="w-5 h-5" />
+                  <button
+                    className={`w-full mt-6 bg-blue-600 text-white py-3 rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 ${
+                      isLoading[destination.id]
+                        ? "opacity-75 cursor-not-allowed"
+                        : "hover:bg-blue-700"
+                    }`}
+                    onClick={() => handleExplore(destination.id)}
+                    disabled={isLoading[destination.id]}
+                  >
+                    {isLoading[destination.id] ? (
+                      <Loader className="w-5 h-5 animate-spin mr-2" />
+                    ) : (
+                      <>
+                        Explore Destination
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
                   </button>
                 </div>
               </div>

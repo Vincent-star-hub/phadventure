@@ -18,6 +18,12 @@ const Layout = () => {
   const location = useLocation();
 
   const handleScroll = () => {
+    // Prevent hiding the navbar on small screens (mobile)
+    if (window.innerWidth < 768) {
+      setIsNavbarVisible(true);
+      return;
+    }
+
     if (window.scrollY > lastScrollY) {
       setIsNavbarVisible(false);
     } else {
