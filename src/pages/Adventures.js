@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MapPin,
   Star,
@@ -518,6 +518,14 @@ const Adventures = () => {
     setSelectedAdventure(adventure);
     setIsBookingModalOpen(true);
   };
+
+  useEffect(() => {
+    if (isBookingModalOpen) {
+      document.body.style.overflow = "hidden"; // Prevent scrolling
+    } else {
+      document.body.style.overflow = ""; // Enable scrolling
+    }
+  }, [isBookingModalOpen]);
 
   return (
     <div className="bg-gray-50">
